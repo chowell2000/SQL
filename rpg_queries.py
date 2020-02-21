@@ -86,4 +86,18 @@ for row in character_item_result:
     print('Character number:', row['character_id'],
           'has', row['Item_Count'], 'items')
 
-print('next test')
+print('\n \n')
+
+character_weapon_query = """
+SELECT
+    character_id,
+    count(distinct item_id) as Weapon_Count
+FROM charactercreator_character_inventory
+WHERE item_id IN (SELECT item_ptr_id FROM armory_weapon)
+GROUP BY character_id
+LIMIT 20
+"""
+character_weapon_result = cursor.execute(character_weapon_query).fetchall()
+for row in character_weapon_result:
+    print('Character number:', row['character_id'],
+          'has', row['Weapon_Count'], 'weapons')
